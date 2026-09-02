@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <title>Bowling Brackets</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="toast" class="toast" hidden></div>
+
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="ball-mark">●</div>
+      <h1>Bowling Brackets</h1>
+      <p>Sign in with the league administrator email to manage brackets.</p>
+      <form id="loginForm">
+        <label>Email</label>
+        <input id="loginEmail" type="email" autocomplete="email" required placeholder="you@example.com" />
+        <button class="btn primary full" type="submit">Email me a sign-in link</button>
+      </form>
+      <p id="loginStatus" class="muted small"></p>
+    </div>
+  </section>
+
+  <div id="app" hidden>
+    <header class="topbar">
+      <div>
+        <h1 id="appTitle">Bowling Brackets</h1>
+        <div id="seasonLine" class="subhead">2026 • Week 1 • 90% of 230</div>
+      </div>
+      <button id="signOutBtn" class="icon-btn" type="button" title="Sign out">↪</button>
+    </header>
+
+    <nav class="tabs" aria-label="Main navigation">
+      <button class="tab active" data-view="setup">Setup</button>
+      <button class="tab" data-view="live">Live Brackets</button>
+      <button class="tab" data-view="results">Results</button>
+    </nav>
+
+    <main>
+      <div id="bracketPicker" class="bracket-picker"></div>
+
+      <section id="setupView" class="view">
+        <div class="card settings-card">
+          <div class="card-title-row"><h2>Night Settings</h2><button id="saveSettingsBtn" class="btn ghost">Save</button></div>
+          <div class="settings-grid">
+            <label>Season<input id="seasonInput" type="number" inputmode="numeric" /></label>
+            <label>Week<input id="weekInput" type="number" inputmode="numeric" min="1" /></label>
+            <label>Entry Fee<input id="feeInput" type="number" inputmode="decimal" min="0" step="0.25" /></label>
+            <label>Handicap Base<input id="baseInput" type="number" inputmode="numeric" min="0" /></label>
+            <label>Handicap %<input id="percentInput" type="number" inputmode="decimal" min="0" max="1" step="0.01" /></label>
+            <label>Rounding<select id="roundingInput"><option>FLOOR</option><option>ROUND</option><option>CEIL</option></select></label>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title-row">
+            <div><h2 id="setupBracketTitle">H1 • Handicap</h2><p class="muted">Enter up to 8 bowlers. Randomize when all 8 spots are filled.</p></div>
+            <label class="switch-label"><input id="activeToggle" type="checkbox" /> Active</label>
+          </div>
+          <datalist id="bowlerList"></datalist>
+          <div id="entrantRows" class="entrant-list"></div>
+          <div class="action-grid">
+            <button id="saveEntrantsBtn" class="btn primary">Save Entrants</button>
+            <button id="randomizeBtn" class="btn success">Randomize</button>
+            <button id="openLiveBtn" class="btn ghost">Open Live</button>
+            <button id="resetBracketBtn" class="btn danger ghost">Reset Bracket</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Night Controls</h2>
+          <div class="action-grid two">
+            <button id="randomizeAllBtn" class="btn success">Randomize Active</button>
+            <button id="resetNightBtn" class="btn danger">Reset Entire Night</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="liveView" class="view" hidden>
+        <div id="liveContent"></div>
+      </section>
+
+      <section id="resultsView" class="view" hidden>
+        <div id="resultsSummary"></div>
+        <div class="card"><div class="card-title-row"><h2>History</h2><button id="refreshHistoryBtn" class="btn ghost">Refresh</button></div><div id="historyList"></div></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
