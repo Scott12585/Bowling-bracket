@@ -10,17 +10,14 @@
 <body>
   <div id="toast" class="toast" hidden></div>
 
-  <section id="authScreen" class="auth-screen" hidden>
-    <div class="auth-card">
-      <div class="ball-mark">●</div>
-      <h1>Bowling Brackets</h1>
-      <p id="loginStatus" class="muted small">Loading bracket app…</p>
-      <form id="loginForm" hidden>
-        <input id="loginEmail" type="email" />
-        <button type="submit">Continue</button>
-      </form>
-    </div>
-  </section>
+  <!-- Legacy auth hooks kept hidden so the existing app script can initialize cleanly. -->
+  <div style="display:none!important" aria-hidden="true">
+    <section id="authScreen">
+      <p id="loginStatus"></p>
+      <form id="loginForm"><input id="loginEmail" type="email" /></form>
+    </section>
+    <button id="signOutBtn" type="button"></button>
+  </div>
 
   <div id="app" hidden>
     <header class="topbar">
@@ -28,7 +25,6 @@
         <h1 id="appTitle">Bowling Brackets</h1>
         <div id="seasonLine" class="subhead">2026 • Week 1 • 90% of 230</div>
       </div>
-      <button id="signOutBtn" class="icon-btn" type="button" hidden aria-hidden="true">↪</button>
     </header>
 
     <nav class="tabs" aria-label="Main navigation">
