@@ -10,17 +10,15 @@
 <body>
   <div id="toast" class="toast" hidden></div>
 
-  <section id="authScreen" class="auth-screen">
+  <section id="authScreen" class="auth-screen" hidden>
     <div class="auth-card">
       <div class="ball-mark">●</div>
       <h1>Bowling Brackets</h1>
-      <p>Sign in with the league administrator email to manage brackets.</p>
-      <form id="loginForm">
-        <label>Email</label>
-        <input id="loginEmail" type="email" autocomplete="email" required placeholder="you@example.com" />
-        <button class="btn primary full" type="submit">Email me a sign-in link</button>
+      <p id="loginStatus" class="muted small">Loading bracket app…</p>
+      <form id="loginForm" hidden>
+        <input id="loginEmail" type="email" />
+        <button type="submit">Continue</button>
       </form>
-      <p id="loginStatus" class="muted small"></p>
     </div>
   </section>
 
@@ -30,7 +28,7 @@
         <h1 id="appTitle">Bowling Brackets</h1>
         <div id="seasonLine" class="subhead">2026 • Week 1 • 90% of 230</div>
       </div>
-      <button id="signOutBtn" class="icon-btn" type="button" title="Sign out">↪</button>
+      <button id="signOutBtn" class="icon-btn" type="button" hidden aria-hidden="true">↪</button>
     </header>
 
     <nav class="tabs" aria-label="Main navigation">
@@ -91,6 +89,16 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const originalCreateClient = supabase.createClient.bind(supabase);
+    supabase.createClient = (...args) => {
+      const client = originalCreateClient(...args);
+      client.auth.getSession = async () => ({ data: { session: { publicAccess: true } }, error: null });
+      client.auth.onAuthStateChange = () => ({ data: { subscription: { unsubscribe() {} } } });
+      client.auth.signOut = async () => ({ error: null });
+      return client;
+    };
+  </script>
   <script src="app.js"></script>
 </body>
 </html>
